@@ -12,8 +12,8 @@
 #          h - height of cylinder
 
 pi = 3.14
-r = 
-h =
-v =
+r = 2
+h = 3.1
+v = pi * r * h
 
-print(f"Volume of cylinder with radius r={r} and height h={h}: {V}") 
+print(f"Volume of cylinder with radius r={r} and height h={h}: {v}") 

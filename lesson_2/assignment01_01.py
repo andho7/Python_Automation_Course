@@ -5,13 +5,13 @@
 # Assign actual data to the variables below
 # and run the script to print the output.
 
-name = "Brian"
-profession = "fisherman"
-facility = "Old Boat"
-city = "Porto"
-country = "Portugal"
-goal = "software engineer"
-age = 20
+name = "Andrii"
+profession = "QA"
+facility = "Dogs and Cats"
+city = "Lviv"
+country = "Ukraine"
+goal = "Rocket engineer"
+age = 35
 
 print(
 f"""
