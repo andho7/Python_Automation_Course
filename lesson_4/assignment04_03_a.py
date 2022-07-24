@@ -12,10 +12,10 @@ def main():
     response = requests.get("http://127.0.0.1:5000/class/qautomation")
     data = response.json()
 
-    unique_names = data["result"]["students"]  # модіфікувати для отримання тільки унікальних імен у класі
+    unique_names = set(data["result"]["students"])  # модіфікувати для отримання тільки унікальних імен у класі
     print(f"Unique student names in class: {unique_names}")
-    print(f"students: {data}")  # відобразити тільки students
-    print(f"Ratings: {data}")  # відобразити тільки ratings зі словника
+    print(f"students: {data['result']['students']}")  # відобразити тільки students
+    print(f"Ratings: {data['result']['ratings']}")  # відобразити тільки ratings зі словника
 
 
 if __name__ == "__main__":
