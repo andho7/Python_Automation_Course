@@ -14,6 +14,6 @@
 pi = 3.14
 r = 2
 h = 3.1
-v = pi * r * h
+v = pi * r * r * h
 
 print(f"Volume of cylinder with radius r={r} and height h={h}: {v}") 
