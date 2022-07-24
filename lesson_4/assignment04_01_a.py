@@ -28,7 +28,6 @@ _NAMES = [
 ]
 
 
-
 @app.route("/hello", strict_slashes=False)
 def hello():
     return "<h2>World!</h2>"

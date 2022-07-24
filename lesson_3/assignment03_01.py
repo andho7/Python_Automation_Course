@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# coding: utf-8
 
 # Assignment 03-01
 #
@@ -37,19 +38,22 @@
 #
 # Підказка:
 #     * sqrt - через пайтонівські аріфметичні операціх: N**0.5, 4**0.5 == 2, 16**0.5 == 4...
+import math
 
 Px = int(input("Введіть Px: "))  # зчитування значення від користувача та конвертація у число (int)
 Py = int(input("Введіть Py: "))
 Cx = int(input("Введіть Сx: "))
-Cy = int(input("Введіть Сн: "))
+Cy = int(input("Введіть Сy: "))
 r1 = int(input("Введіть r1: "))
 r2 = int(input("Введіть r2: "))
 
-L = None
+L = math.sqrt((Px - Cx) ** 2 + (Py - Cy) ** 2)
+# L = ((Px - Cx) ** 2 + (Py - Cy) ** 2) ** 0.5
 
 result = "не належить"
+print(L)
 if r1 < L < r2:
-   result = "належить"    
+    result = "належить"
+
 
 print(f"Координата ({Px}, {Py}) {result} кільцю за центром у ({Cx}, {Cy}) та радіусами r1 = {r1}, r2 = {r2}")
-
