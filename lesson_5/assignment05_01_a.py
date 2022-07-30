@@ -28,8 +28,11 @@ letter = input('Введіть літеру: ')
 
 if len(letter) > 1:
 	print('літера має довжину більше 1.')
-
-if letter not in random_str:
+	exit()
+elif len(letter) < 1:
+	print('Ви не ввели жодної літери')
+	exit()
+elif letter not in random_str:
 	print(f'Строка не містить літеру "{letter}"')
 	exit()
 else:
