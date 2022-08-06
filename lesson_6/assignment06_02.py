@@ -24,6 +24,14 @@ for i in data.items():
 
 print(data)
 
+
+for k, l in data.items():
+    for v in l:
+        data[v] = k
+    
+
+
+
 # Output:
 # {
 # 	('red', 'green', 'blue', 'purple'): 'colors',
