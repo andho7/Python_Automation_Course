@@ -30,5 +30,4 @@ for i in range(0,50):
     n = random.randint(1,100)
     randomlist.append(n)
 
-a = randomlist
-print(filter_sequence(a, lambda_func))
+print(filter_sequence(randomlist, lambda_func))

@@ -30,8 +30,12 @@
 #
 
 def linear_search(iterable, element):
-    if element in iterable:
-        return iterable.index(element)
+    # if element in iterable:
+    #     return iterable.index(element)
+    for i in range(len(iterable)):
+        if iterable[i] == element:
+            return i
+    return None
             
 s = "Hello world"
 print(linear_search(s, "w"))
