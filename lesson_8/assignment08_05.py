@@ -28,7 +28,7 @@
 #   * f.write("\n")  напечатає перехід на новий рядок у файлі
 #   * ', '.join(sequence) - надає можливість об'єднати елементи послідовності у строку розділені комами
 
-from toolset import sequences
+import sequences
 
 GENERATED_SEQ_FILE = "generated_sequence.txt"
 GENERATED_MATRIX_FILE = "generated_matrix.txt"
@@ -41,8 +41,9 @@ def store_sequence(filename, seq):
 
     output_file = open(filename, "w")
     for el in seq:
-        pass  # зберігаємо елемент у файл
-    # повертаємо файл (ресурс) операційній системі
+        output_file.write(str(el))
+        output_file.write('\n')
+    output_file.close()
 
 
 def store_matrix(filename, matrix):
@@ -52,16 +53,14 @@ def store_matrix(filename, matrix):
 
     n, m = len(matrix), len(matrix[0])
     with open(filename, "w") as matrix_file:
-        # зберігаємо спочатку розмірність - n m - у файл
         for row in matrix:
-            for el in row:
-                pass # pass # зберігаємо кожний елемент у файл
-            # новий рядок (у разі коли це не перша строка матриці)
-
+            matrix_file.write(', '.join(str(el) for el in row))
+            matrix_file.write('\n')
 
 def main():
-    n, m = 5, 5
+    n, m = 10, 5
     seq = sequences.random_list(n*m, 0, n+m)
+    print(seq)
     store_sequence(GENERATED_SEQ_FILE, seq)
     matrix = [[seq[i*m+j] for j in range(m)] for i in range(n)]
     store_matrix(GENERATED_MATRIX_FILE, matrix)
