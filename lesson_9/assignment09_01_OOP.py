@@ -17,9 +17,8 @@
 
 
 # Створити 3 чоловіків та 2 жінок, Задати кожному з них виконання декількох дій, вивести в кого найбільше енергії лишилося.
-
+import gc
 from datetime import date
-
 
 class Human:
     energy = 100
@@ -48,6 +47,23 @@ class Human:
     @property
     def show_energy(self):
         return f'{self.name} has {self.energy} energy'
+     
+    @staticmethod
+    def get_human_with_max_energy(humans_objs_list: list) -> object:
+        energy = 0
+        obj = None
+        for i in humans_objs_list:
+            if i.energy > energy:
+                energy = i.energy
+                obj = i
+        return obj
+
+def get_all_class_instances(class_name):
+    class_objs_list = []
+    for obj in gc.get_objects():
+        if isinstance(obj, Human):
+            class_objs_list.append(obj)
+    return class_objs_list
 
 man1 = Human("Jon", "Smith", '12/02/1990', "male")
 man2 = Human("Peter", "Green", '21/08/1950', "male")
@@ -55,7 +71,6 @@ man3 = Human("Rick", "Ollaph", '30/09/2001', "male")
 
 woman1 = Human("Ann", "Black", '30/04/1999', "female")
 woman2 = Human("Ori", "Wing", '11/03/1977', "female")
-
 
 man2.walk()
 man2.sleep()
@@ -80,22 +95,6 @@ woman2.sleep()
 woman2.walk()
 print(woman2.show_energy)
 
-import gc
-
-humans_objs_list = []
-for obj in gc.get_objects():
-    if isinstance(obj, Human):
-        humans_objs_list.append(obj)
-        
-def human_with_max_energy(humans_objs_list: list) -> object:
-    energy = 0
-    obj = None
-    for i in humans_objs_list:
-        if i.energy > energy:
-            energy = i.energy
-            obj = i
-    return obj
-
-human = human_with_max_energy(humans_objs_list)
+human = Human.get_human_with_max_energy(get_all_class_instances(Human))
 print(f'\n{human.name} is a human with max level of energy.\nEnergy level is {human.energy}')
 
