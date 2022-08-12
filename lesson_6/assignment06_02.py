@@ -24,20 +24,34 @@ for i in data.items():
 
 print(data)
 
-
-for k, l in data.items():
-    for v in l:
-        data[v] = k
-    
-
-
-
 # Output:
 # {
 # 	('red', 'green', 'blue', 'purple'): 'colors',
 # 	('pineapple', 'orange', 'banana'): 'fruits',
 # 	('coat', 'tshirt'): 'clothes'
 # }
+
+a = {1:'a', 2:'b'}
+res = dict((v,k) for k,v in a.items())
+print(res)
+# {'a': 1, 'b': 2}
+
+data = {
+	'colors': ['red', 'green', 'blue', 'purple'],
+	'fruits': ['pineapple', 'orange', 'banana'],
+	'clothes': ['coat', 'tshirt']
+}
+
+for k in list(data):
+	vs = data.pop(k)
+	for v in vs:
+		data[v] = k
+print(data)
+
+# {'red': 'colors', 'green': 'colors', 'blue': 'colors', 'purple': 'colors', 
+#  'pineapple': 'fruits', 'orange': 'fruits', 'banana': 'fruits', 
+#  'coat': 'clothes', 'tshirt': 'clothes'}
+
 
 
 
