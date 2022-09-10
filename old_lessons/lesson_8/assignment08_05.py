@@ -59,7 +59,7 @@ def store_matrix(filename, matrix):
 
 def main():
     n, m = 10, 5
-    seq = sequences.random_list(n*m, 0, n+m)
+    seq = sequences.random_list(n * m, 0, n + m)
     print(seq)
     store_sequence(GENERATED_SEQ_FILE, seq)
     matrix = [[seq[i*m+j] for j in range(m)] for i in range(n)]
