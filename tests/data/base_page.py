@@ -60,15 +60,14 @@ def create_new_user(driver):
     time.sleep(3)
     join_date = driver.find_element(By.ID, AddUserPage.DATE_TIME).get_attribute('value')
 
-
-    data = {'username': user_name, 'password': password, 'user_id': user_id[0], 'date': join_date}
-    with open('test_users.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-
     time.sleep(1)
     save_edit_button = driver.find_element(By.XPATH, AddUserPage.SAVE_EDIT_BUTTON)
     time.sleep(1)
     save_edit_button.click()
+
+    data = {'username': user_name, 'password': password, 'user_id': user_id[0], 'date': join_date}
+    with open('test_users.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
     return user_name
 
@@ -91,6 +90,44 @@ def get_user_join_time(user_name, driver):
         date_join_time = driver.find_element(By.ID, AddUserPage.DATE_TIME).get_attribute('value')
         return date_join_time
 
+def edit_username(user_name, driver):
+    if is_user_found(user_name, driver):
+        user_entity = driver.find_element(By.XPATH, UsersPgae.USER_ENTITY)
+        user_entity.click()
+        time.sleep(1)
+        username_field = driver.find_element(By.ID, AddUserPage.USERNAME_FIELD)
+        username_field.clear()
+        user_name = 'user_name_test_edited'
+        username_field.send_keys(user_name)
+        time.sleep(1)
+
+        with open("test_users.json", 'r') as f:
+            user = json.load(f)
+
+        save_edit_button = driver.find_element(By.XPATH, AddUserPage.SAVE_EDIT_BUTTON)
+        time.sleep(1)
+        save_edit_button.click()
+
+        user['username'] = user_name
+        with open("test_users.json", 'w') as f:
+            json.dump(user, f, ensure_ascii=False, indent=4)
+
+
+def is_username(new_name, driver):
+    search_input = driver.find_element(By.ID, UsersPgae.SEARCH_INPUT)
+    search_input.clear()
+    search_input.send_keys(new_name)
+    search_button = driver.find_element(By.XPATH, UsersPgae.SEARCH_BUTTON)
+    search_button.click()
+    user_entity = driver.find_element(By.XPATH, UsersPgae.USER_ENTITY)
+    user_entity.click()
+
+    username_field = driver.find_element(By.ID, AddUserPage.USERNAME_FIELD)
+    username = username_field.get_attribute('value')
+    if username == new_name:
+        return True
+
+
 def delete_user(user_id, driver):
     driver.get(f'{secret_variables["endpoint"]}auth/user/{user_id}/change/')
     time.sleep(1)
@@ -98,6 +135,7 @@ def delete_user(user_id, driver):
     delete_button = driver.find_element(By.XPATH, AddUserPage.DELETE_BUTTON)
     delete_button.click()
     time.sleep(1)
+
 
     delete_confirmation_button = driver.find_element(By.XPATH, AddUserPage.DELETE_CONFIRMATION_BUTTON)
     delete_confirmation_button.click()
