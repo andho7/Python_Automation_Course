@@ -1,20 +1,22 @@
+import json
 import random
-import time
 import re
+import time
+from pathlib import Path
 
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from data.helpers import generate_random_password
 from data.locators import LoginPage, AdminPage, AddUserPage, UsersPgae
-from selenium import webdriver
-import json
 
+base_dir = Path(__file__).parent.parent
 
-with open("data.json", "r") as f:
+with open(f"{base_dir}/data.json", "r") as f:
     secret_variables = json.load(f)
 
-def login_to_admin_page(driver: webdriver):
 
+def login_to_admin_page(driver: webdriver):
     driver.get(secret_variables["endpoint"])
 
     name_field = driver.find_element(By.ID, LoginPage.LOGIN_FIELD)
@@ -32,12 +34,16 @@ def login_to_admin_page(driver: webdriver):
     assert element_to_found.text == "Django administration"
 
 
+def logout(driver: webdriver):
+    driver.get(f'{secret_variables["endpoint"]}logout/')
+
+
 def create_new_user(driver):
     add_new_user_button = driver.find_element(By.XPATH, AdminPage.ADD_NEW_USER_BUTTON)
     add_new_user_button.click()
 
     username_field = driver.find_element(By.ID, AddUserPage.USERNAME_FIELD)
-    user_name = f'user_name_test_{random.randint(1,100)}'
+    user_name = f'user_name_test_{random.randint(1, 100)}'
     username_field.send_keys(user_name)
     time.sleep(1)
 
@@ -66,10 +72,11 @@ def create_new_user(driver):
     save_edit_button.click()
 
     data = {'username': user_name, 'password': password, 'user_id': user_id[0], 'date': join_date}
-    with open('test_users.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+    with open('test_users.json', 'w', encoding='utf-8') as _:
+        json.dump(data, _, ensure_ascii=False, indent=4)
 
     return user_name
+
 
 def is_user_found(user_name, driver) -> bool:
     driver.get(f'{secret_variables["endpoint"]}auth/user/')
@@ -82,6 +89,7 @@ def is_user_found(user_name, driver) -> bool:
 
     return driver.find_element(By.XPATH, UsersPgae.USER_COUNT_FIELD).text == '1 user'
 
+
 def get_user_join_time(user_name, driver):
     if is_user_found(user_name, driver):
         user_entity = driver.find_element(By.XPATH, UsersPgae.USER_ENTITY)
@@ -89,6 +97,7 @@ def get_user_join_time(user_name, driver):
         time.sleep(1)
         date_join_time = driver.find_element(By.ID, AddUserPage.DATE_TIME).get_attribute('value')
         return date_join_time
+
 
 def edit_username(user_name, driver):
     if is_user_found(user_name, driver):
@@ -135,7 +144,6 @@ def delete_user(user_id, driver):
     delete_button = driver.find_element(By.XPATH, AddUserPage.DELETE_BUTTON)
     delete_button.click()
     time.sleep(1)
-
 
     delete_confirmation_button = driver.find_element(By.XPATH, AddUserPage.DELETE_CONFIRMATION_BUTTON)
     delete_confirmation_button.click()
