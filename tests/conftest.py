@@ -4,16 +4,15 @@ docker rm selenium_chrome
 docker stop selenium_chrome
 docker rm --force selenium_chrome
 """
-import json
 
 import pytest
 from selenium import webdriver
 
-from data.base_page import is_user_found, delete_user, login_to_admin_page, logout
+from src.auth import login_to_admin_page, logout
 
 
-@pytest.fixture(autouse=True)
-def driver():
+@pytest.fixture(scope='session')
+def driver() -> webdriver:
     options = webdriver.ChromeOptions()
     options.add_argument('--ignore-ssl-errors=yes')
     options.add_argument('--ignore-certificate-errors')
@@ -22,14 +21,14 @@ def driver():
         command_executor='http://localhost:4444/wd/hub',
         options=options
     )
-    login_to_admin_page(driver)
-
+    print('WebDriver is created')
     yield driver
-
-    with open("test_users.json", "r") as f:
-        user = json.load(f)
-    if is_user_found(user['username'], driver):
-        delete_user(user['user_id'], driver)
-
-    logout(driver)
     driver.close()
+    print('WebDriver is closed')
+
+
+@pytest.fixture(scope='class')
+def login_logout(driver):
+    login_to_admin_page(driver)
+    yield driver
+    logout(driver)
