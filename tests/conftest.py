@@ -24,11 +24,13 @@ def driver() -> webdriver:
     print('WebDriver is created')
     yield driver
     driver.close()
-    print('WebDriver is closed')
+    print('\nWebDriver is closed')
 
 
 @pytest.fixture(scope='class')
 def login_logout(driver):
     login_to_admin_page(driver)
+    print('User is logged in to Admin panel')
     yield driver
     logout(driver)
+    print('\nUser is logged out from Admin panel')
