@@ -12,7 +12,8 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-from src.auth import login_to_admin_page, logout, WebAPI
+from src.auth import login, logout
+from src.api import WebAPI
 
 
 @pytest.fixture(scope='session')
@@ -33,7 +34,7 @@ def driver() -> webdriver:
 
 @pytest.fixture(scope='class')
 def login_logout(driver):
-    login_to_admin_page(driver)
+    login(driver)
     print('User is logged in to Admin panel')
     yield driver
     logout(driver)
