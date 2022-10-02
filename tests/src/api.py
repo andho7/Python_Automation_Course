@@ -47,11 +47,7 @@ class WebAPI:
             "email": "",
             "groups": []
         }
-        r2 = self.session.get(url=f'{self.base_url}users/',
-                              headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,'
-                                                 'image/avif,image/webp,image/apng,*/*;q=0.8,'
-                                                 'application/signed-exchange;v=b3;q=0.9'}).text
-        csrf = re.search(r'(?<=csrfToken: ").*(?=")', r2)[0]
+        csrf = self.get_csrf_token(f'{self.base_url}users/')
         r = self.session.post(f'{self.base_url}users/',
                               json=user_data,
                               headers={'Content-Type': 'application/json', 'X-CSRFTOKEN': csrf,
@@ -64,11 +60,7 @@ class WebAPI:
         return r.status_code
 
     def get_user_data(self):
-        r2 = self.session.get(url=f'{self.base_url}users/{self.user_id}',
-                              headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,'
-                                                 'image/avif,image/webp,image/apng,*/*;q=0.8,'
-                                                 'application/signed-exchange;v=b3;q=0.9'}).text
-        csrf = re.search(r'(?<=csrfToken: ").*(?=")', r2)[0]
+        csrf = self.get_csrf_token(f'{self.base_url}users/{self.user_id}/')
         r = self.session.get(f'{self.base_url}users/{self.user_id}',
                              headers={'Content-Type': 'application/json', 'X-CSRFTOKEN': csrf,
                                       'Referer': f'https://www.aqa.science/users/{self.user_id}'})
@@ -84,11 +76,7 @@ class WebAPI:
         user_data = {
             "username": username
         }
-        r2 = self.session.get(url=f'{self.base_url}users/{self.user_id}',
-                              headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,'
-                                                 'image/avif,image/webp,image/apng,*/*;q=0.8,'
-                                                 'application/signed-exchange;v=b3;q=0.9'}).text
-        csrf = re.search(r'(?<=csrfToken: ").*(?=")', r2)[0]
+        csrf = self.get_csrf_token(f'{self.base_url}users/{self.user_id}/')
         r = self.session.put(f'{self.base_url}users/{self.user_id}/', json=user_data,
                              headers={'Content-Type': 'application/json', 'X-CSRFTOKEN': csrf,
                                       'Referer': f'https://www.aqa.science/users/{self.user_id}'})
@@ -98,16 +86,20 @@ class WebAPI:
         return r.status_code
 
     def delete_user(self):
-        r2 = self.session.get(url=f'{self.base_url}users/{self.user_id}',
-                              headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,'
-                                                 'image/avif,image/webp,image/apng,*/*;q=0.8,'
-                                                 'application/signed-exchange;v=b3;q=0.9'}).text
-        csrf = re.search(r'(?<=csrfToken: ").*(?=")', r2)[0]
+        csrf = self.get_csrf_token(f'{self.base_url}users/{self.user_id}/')
         r = self.session.delete(f'{self.base_url}users/{self.user_id}',
                                 headers={'Content-Type': 'application/json', 'X-CSRFTOKEN': csrf,
                                          'Referer': f'https://www.aqa.science/users/{self.user_id}'})
 
         return r.status_code
+
+    def get_csrf_token(self, url):
+        r2 = self.session.get(url=url,
+                              headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,'
+                                                 'image/avif,image/webp,image/apng,*/*;q=0.8,'
+                                                 'application/signed-exchange;v=b3;q=0.9'}).text
+        csrf = re.search(r'(?<=csrfToken: ").*(?=")', r2)[0]
+        return csrf
 
     def get_all_users(self):
         r2 = self.session.get(f'{self.base_url}users/')
