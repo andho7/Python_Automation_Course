@@ -23,7 +23,7 @@ def driver() -> webdriver:
     options.add_argument('--ignore-certificate-errors')
 
     driver = webdriver.Remote(
-        command_executor='http://localhost:4444/wd/hub',
+        command_executor='http://localhost:4789/wd/hub',
         options=options
     )
     print('WebDriver is created')
