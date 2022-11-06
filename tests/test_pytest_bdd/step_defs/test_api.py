@@ -5,17 +5,16 @@ from pytest_bdd import scenarios, given, when, then, parsers
 scenarios('../features/api_scenarios.feature')
 
 
-@when("I create a new user", target_fixture='create_user')
+@when("I create a new user")
 def create_user(api):
     username = api.generate_username()
     assert not api.is_username(username)
     api.create_user(username)
-    return username
 
 
 @then("I ensure that username can be found in user's list")
-def ensure_that_user_created(api, create_user):
-    assert api.is_username(create_user)
+def ensure_that_user_created(api):
+    assert api.is_username(api.username)
 
 
 @then("I ensure that username can NOT be found in user's list")
