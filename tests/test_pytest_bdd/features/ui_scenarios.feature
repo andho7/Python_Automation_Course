@@ -1,4 +1,5 @@
 # Created by ango at 23.10.2022
+@UI
 Feature: Basic CRUD operations using UI
 
   Scenario: Create user
