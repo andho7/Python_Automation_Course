@@ -1,8 +1,8 @@
-import json
-import re
-
-import requests
-from bs4 import BeautifulSoup
+# import json
+# import re
+#
+# import requests
+# from bs4 import BeautifulSoup
 
 
 # result = []
@@ -88,44 +88,44 @@ from bs4 import BeautifulSoup
 # # payload = {'csrfmiddlewaretoken': csrftoken, }
 # # r2 = client.get('https://www.aqa.science/users/', payload)
 # # print(r2.json)
-
-url = 'https://www.aqa.science/api-auth/login/?next=/'
-s = requests.Session()
-s.get(url)
-html = s.get(url).text
-soup = BeautifulSoup(html, 'html.parser')
-input_tag = soup.find(attrs={"name": "csrfmiddlewaretoken"})
-token_csrf = input_tag['value']
-
-payload = {'username': 'admin', 'password': 'admin123', 'csrfmiddlewaretoken': token_csrf}
-r = s.post(url=url,
-           data=payload,
-           headers={'Referer': 'https://www.aqa.science/api-auth/login/?next=/'}
-           )
-print(r.request.headers)
-r2 = s.get('https://www.aqa.science/users/1291')
-print(r2.json())
-
-
-data = {
-    "url": "https://www.aqa.science/users/1291/",
-    "username": "user111_2_1+1+6",
-    "email": "",
-    "groups": []
-}
-a = json.dumps(data, indent=4)
-r2 = s.get(url='https://www.aqa.science/users/1291/',
-           headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,'
-                              'image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}).text
-csrf = re.search(r'(?<=csrfToken: ").*(?=")', r2)[0]
-
-r4 = s.put(url='https://www.aqa.science/users/1291/',
-           data=a,
-           headers={'Content-Type': 'application/json',
-                    'X-CSRFTOKEN': csrf,
-                    'Referer': 'https://www.aqa.science/users/1291/'})
-print(r4.request.headers)
-print(r4.request.body)
-print(r4.request.method)
-print(r4.status_code)
-print(r4.text)
+#
+# url = 'https://www.aqa.science/api-auth/login/?next=/'
+# s = requests.Session()
+# s.get(url)
+# html = s.get(url).text
+# soup = BeautifulSoup(html, 'html.parser')
+# input_tag = soup.find(attrs={"name": "csrfmiddlewaretoken"})
+# token_csrf = input_tag['value']
+#
+# payload = {'username': 'admin', 'password': 'admin123', 'csrfmiddlewaretoken': token_csrf}
+# r = s.post(url=url,
+#            data=payload,
+#            headers={'Referer': 'https://www.aqa.science/api-auth/login/?next=/'}
+#            )
+# print(r.request.headers)
+# r2 = s.get('https://www.aqa.science/users/1291')
+# print(r2.json())
+#
+#
+# data = {
+#     "url": "https://www.aqa.science/users/1291/",
+#     "username": "user111_2_1+1+6",
+#     "email": "",
+#     "groups": []
+# }
+# a = json.dumps(data, indent=4)
+# r2 = s.get(url='https://www.aqa.science/users/1291/',
+#            headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,'
+#                               'image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}).text
+# csrf = re.search(r'(?<=csrfToken: ").*(?=")', r2)[0]
+#
+# r4 = s.put(url='https://www.aqa.science/users/1291/',
+#            data=a,
+#            headers={'Content-Type': 'application/json',
+#                     'X-CSRFTOKEN': csrf,
+#                     'Referer': 'https://www.aqa.science/users/1291/'})
+# print(r4.request.headers)
+# print(r4.request.body)
+# print(r4.request.method)
+# print(r4.status_code)
+# print(r4.text)
