@@ -1,4 +1,5 @@
 # Created by ango at 23.10.2022
+@API
 Feature: Basic CRUD operations using API
 
   Scenario: Create user
